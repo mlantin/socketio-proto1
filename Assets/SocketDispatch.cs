@@ -34,11 +34,17 @@ public class SocketDispatch : MonoBehaviour {
 				newrot.Set(msg.Rot.X, msg.Rot.Y, msg.Rot.Z, msg.Rot.Z);
 
 		});
+		socket.On ("mocap", handleMocap);
 	}
 
 	// Update is called once per frame
 	void Update () {
-		testobj.transform.rotation = newrot;
+		testobj.transform.position = newpos;
+	}
+
+	void handleMocap(System.Object data) {
+		Google.Protobuf.VRCom.Mocap msg = Google.Protobuf.VRCom.Mocap.Parser.ParseFrom((System.Byte[])data);
+		newpos.Set(msg.Pos.X, msg.Pos.Y, msg.Pos.Z);
 	}
 
 	void OnApplicationQuit() {
